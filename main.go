@@ -15,6 +15,7 @@ const (
 
 	CACHE_AWS_ACCESS_KEY_ID     = "cache_aws_access_key_id"
 	CACHE_AWS_SECRET_ACCESS_KEY = "cache_aws_secret_access_key"
+	CACHE_AWS_ENDPOINT          = "cache_aws_endpoint"
 	CACHE_AWS_REGION            = "cache_aws_region"
 	CACHE_BUCKET_NAME           = "cache_bucket_name"
 	CACHE_KEY                   = "cache_key"
@@ -32,6 +33,7 @@ func generateBucketKey(cacheKey string) (string, error) {
 func main() {
 	awsAccessKeyId := GetEnvOrExit(CACHE_AWS_ACCESS_KEY_ID)
 	awsSecretAccessKey := GetEnvOrExit(CACHE_AWS_SECRET_ACCESS_KEY)
+	awsEndpoint := os.Getenv(CACHE_AWS_ENDPOINT)
 	awsRegion := GetEnvOrExit(CACHE_AWS_REGION)
 	bucketName := GetEnvOrExit(CACHE_BUCKET_NAME)
 	cacheKey := GetEnvOrExit(CACHE_KEY)
@@ -41,6 +43,7 @@ func main() {
 
 	CreateTempFolder(func(tempFolderPath string) {
 		s3 := NewAwsS3(
+			awsEndpoint,
 			awsRegion,
 			awsAccessKeyId,
 			awsSecretAccessKey,
