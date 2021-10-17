@@ -20,6 +20,7 @@ const (
 	CACHE_BUCKET_NAME           = "cache_bucket_name"
 	CACHE_KEY                   = "cache_key"
 	CACHE_PATH                  = "cache_path"
+	CACHE_ARCHIVE_EXTENSION     = "cache_archive_extension"
 )
 
 func generateBucketKey(cacheKey string) (string, error) {
@@ -38,6 +39,7 @@ func main() {
 	bucketName := GetEnvOrExit(CACHE_BUCKET_NAME)
 	cacheKey := GetEnvOrExit(CACHE_KEY)
 	cachePath := GetEnvOrExit(CACHE_PATH)
+	archiveExtension := GetEnvOrExit(CACHE_ARCHIVE_EXTENSION)
 
 	failed := false
 
@@ -68,7 +70,7 @@ func main() {
 
 		log.Println("Cache not found, trying to compress the folder.")
 
-		outputPath := fmt.Sprintf("%s/%s.zip", tempFolderPath, bucketKey)
+		outputPath := fmt.Sprintf("%s/%s.%s", tempFolderPath, bucketKey, archiveExtension)
 		err = archiver.Archive([]string{cachePath}, outputPath)
 
 		if err != nil {
